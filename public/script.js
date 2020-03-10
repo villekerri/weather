@@ -18,7 +18,7 @@ function locationNotes(){
 function addLocation(){
     var params = 'city=' + document.getElementById("add_city").value + '&address=' + document.getElementById("add_address").value;
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://127.0.0.1:8081/post", true)
+    xmlhttp.open("POST", "http://127.0.0.1:8081/add-location", true)
     console.log(params)
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params)
