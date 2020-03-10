@@ -26,6 +26,7 @@ async function postLocation(city, address) {
     const result = await con.execute(sql_query, [city, address]);
     return result;
 }
+
 async function getLocations() {
     let sql_query = "SELECT * FROM locations";
     const con = await sql.createConnection({
@@ -38,6 +39,17 @@ async function getLocations() {
     return result;
 }
 
+async function locationNotes(location) {
+    let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id WHERE locations.city="' + location + '"';
+    const con = await sql.createConnection({
+        host: "localhost",
+        user: "ryhma9",
+        password: "ryhma9",
+        database: "weather"
+    });
+    const result = await con.execute(sql_query);
+    return result;
+}
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../', 'public/index.html'))
@@ -52,14 +64,25 @@ app.get('/locations', function (req, res, next) {
         res.send(rows);
      })
      .catch(console.log);
+})
 
+app.get('/notes/:location', function (req, res, next) {
+    var location = req.params.location
+    console.log(req.query)
+    let result = locationNotes(location);
 
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.send(rows);
+    })
+        .catch(console.log);
 })
 
 app.post('/post', function (req, res, next) {
-    let city = req.query.city;
-    let address = req.query.address;
+    let city = req.param('city')
+    let address = req.param('address')
     console.log(req.query)
+    console.log("tää: " + req.query.city + req.body.city + req.param('city'))
     let result = postLocation(city, address);
 
     result.then( ([rows, fields]) => {
