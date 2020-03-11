@@ -70,18 +70,21 @@ app.get('/notes/:location', function (req, res, next) {
         .catch(console.log);
 })
 
-app.post('/add-location', function (req, res, next) {
-    let city = req.param('city')
-    let address = req.param('address')
-    console.log(req.query)
-    console.log("tää: " + req.query.city + req.body.city + req.param('city'))
+app.post('/:add-location', function (req, res, next) {
+    let city = req.body.city;
+    let address = req.body.address;
+    console.log("req.body:", req.body,
+                 "req.query: ", req.query);
     let result = postLocation(city, address);
 
     result.then( ([rows, fields]) => {
         console.log(rows, fields);
         res.sendStatus(200);
      })
-     .catch(console.log);
+     .catch(function(err) {
+         console.log("error in /add-location: ", err);
+         res.sendStatus(500);
+     });
 })
 
 //http://127.0.0.1:8081/
