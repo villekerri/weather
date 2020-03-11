@@ -6,47 +6,39 @@ var path = require("path");
 var bodyParser = require("body-parser");
 const cors = require('cors');
 
-//mysql db
-
-//POSTin jsonia varten
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
-app.use('/', express.static(path.join(__dirname, 'public')))
-
-async function postLocation(city, address) {
-    let sql_query = "INSERT INTO locations (city,address) VALUES (?, ?)";
-    console.log(sql_query, city, address);
-    const con = await sql.createConnection({
+const sql_settings = {
         host: "localhost",
         user: "ryhma9",
         password: "ryhma9",
         database: "weather"
-      });
+}
+
+//mysql db
+
+//POSTin jsonia varten
+app.use(cors()); //tarvii et voi tehä api kutsuja
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use('/', express.static(path.join(__dirname, '../', 'public')))
+
+async function postLocation(city, address) {
+    let sql_query = "INSERT INTO locations (city,address) VALUES (?, ?)";
+    console.log(sql_query, city, address);
+    const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query, [city, address]);
     return result;
 }
 
 async function getLocations() {
     let sql_query = "SELECT * FROM locations";
-    const con = await sql.createConnection({
-        host: "localhost",
-        user: "ryhma9",
-        password: "ryhma9",
-        database: "weather"
-      });
+    const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
 }
 
 async function locationNotes(location) {
     let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id WHERE locations.city="' + location + '"';
-    const con = await sql.createConnection({
-        host: "localhost",
-        user: "ryhma9",
-        password: "ryhma9",
-        database: "weather"
-    });
+    const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
 }
@@ -78,7 +70,7 @@ app.get('/notes/:location', function (req, res, next) {
         .catch(console.log);
 })
 
-app.post('/post', function (req, res, next) {
+app.post('/add-location', function (req, res, next) {
     let city = req.param('city')
     let address = req.param('address')
     console.log(req.query)
