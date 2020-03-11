@@ -1,7 +1,7 @@
 
 h1 {
     color: navy;
-    margin-left: 20px;
+    font-size: large;
 }
 
 img {
@@ -13,4 +13,9 @@ img {
     background-color: #9DC3E6;
     overflow: hidden;
     border-bottom: 8px solid #59b7eefa;
+}
+
+
+.textcontainer {
+    border: 4px cadetblue;
 }

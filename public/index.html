@@ -5,60 +5,88 @@
     <title>Weather</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sh
     a384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body onload="start()">
 <script src="script.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <div class="topnav">
     <img src="saappi.png" alt="logo" id="img">
 </div>
+<div class="container">
+    <div class="textcontainer">
+    <h2>Mikä SaaAppi?</h2>
+    <p>Niin mikä ihmeen SaaAppi. No se tulee sanoista sää ja appi. Koska haluamme olla international, otettiin ään pisteet pois. Siitä tulikin siitten SaaAppi.
+        Hyppää siis SaaApin kyytiin ja pidä letkeästi sääpäiväkirjaa. Koska tämä on SaaAppi, saa ne tiedot sieltä kätevästi SaaApista eli APIsta eli rajapinnasta.
+        Alkuun pääset parhaiten navigointipalkista tuosta alhaalta<br><br>
+        Mukavaa säätämistä ja säiden näkemistä toivottaen,<br><br>
+        SaaApin pojat<br><br></p>
+    </div>
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#home">Lisää säähavainto</a></li>
+        <li><a data-toggle="pill" href="#menu1">Tarkastele havaintoja</a></li>
+        <li><a data-toggle="pill" href="#menu2">Hallinnoi havaintoja</a></li>
+    </ul>
 
-
-<h1>Lisää havainto</h1>
-
-<h1>Hae havainnot paikkatunnisteella</h1>
-<select id="note_address_menu"></select>
-<input onclick="locationNotes()" type="button" value="Lähetä" id="submit">
-<div id="main">
-    <div class="form-group" id="notes-list">
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <br><br>
+            <h1>Lisää säähavainto</h1>
+            <label for="note_add_address_menu">Osoite: </label><select id="note_add_address_menu"></select><p>(jos paikkaa ei löydy valikosta lisää uusi havaintopaikka alhaalta)</p>
+            <label for="note_temperature">Lämpötila: </label><input type="text" id="note_temperature" name="note_temperature"/>
+            <br><br>
+            <label for="note_cloudiness">Pilvisyys: </label><input type="text" id="note_cloudiness" name="note_cloudiness"/>
+            <br><br>
+            <label for="note_humidity">Ilmankosteus: </label><input type="text" id="note_humidity" name="note_humidity"/>
+            <br><br>
+            <label for="note_dtime">Ajankohta: </label><input type="datetime-local" id="note_dtime" name="note_dtime" placeholder="0000-00-00 00:00:00"/>
+            <br><br>
+            <input onclick="postNote()" type="button" value="Tallenna" id="submit5">
+            <br><br>
+            <h1>Lisää havaintopaikka</h1>
+            <label for="add_city">Kaupunki: </label><input type="text" id="add_city" name="add_city"/>
+            <br><br>
+            <label for="add_address">Osoite: </label><input type="text" id="add_address" name="add_address"/>
+            <br><br>
+            <input onclick="addLocation()" type="button" value="Tallenna" id="submit2">
+            <br><br>
+            <br><br>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <br><br>
+            <h1>Hae havainnot paikkatunnisteella</h1>
+            <select id="note_address_menu"></select>
+            <input onclick="locationNotes()" type="button" value="Lähetä" id="submit">
+            <div id="main">
+                <div class="form-group" id="notes-list">
+                </div>
+            </div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <br><br>
+            <h1>Päivitä havainto</h1>
+            <label for="update_note_id">Päivitettävän havainnon id: </label><input type="text" id="update_note_id" name="update_note_id"/>
+            <br><br>
+            <label for="new_temperature">Lämpötila: </label><input type="text" id="new_temperature" name="new_temperature"/>
+            <br><br>
+            <label for="new_cloudiness">Pilvisyys </label><input type="text" id="new_cloudiness" name="new_cloudiness"/>
+            <br><br>
+            <label for="new_humidity">Ilmankosteus </label><input type="text" id="new_humidity" name="new_humidity"/>
+            <br><br>
+            <label for="new_dtime">Ajankohta </label><input type="datetime-local" id="new_dtime" name="new_dtime" placeholder="0000-00-00 00:00:00"/>
+            <br><br>
+            <input onclick="updateNote()" type="button" value="Päivitä" id="submit3">
+            <br><br>
+            <h1>Poista havainto</h1>
+            <label for="update_note_id">Poistettavan havainnon id: </label><input type="text" id="delete_note_id" name="delete_note_id"/>
+            <br><br>
+            <input onclick="deleteNote()" type="button" value="Poista" id="submit4">
+            <br><br>
+        </div>
     </div>
 </div>
-
-<h1>Lisää havaintopaikka</h1>
-<input type="text" id="add_city" name="add_city"/>
-<input type="text" id="add_address" name="add_address"/>
-<input onclick="addLocation()" type="button" value="Lähetä" id="submit2">
-<br><br>
-Päivitä note
-<input type="text" id="update_note_id" name="update_note_id"/>
-<input type="text" id="new_temperature" name="new_temperature"/>
-<input type="text" id="new_cloudiness" name="new_cloudiness"/>
-<input type="text" id="new_humidity" name="new_humidity"/>
-<input type="datetime-local" id="new_dtime" name="new_dtime" placeholder="0000-00-00 00:00:00"/>
-<input onclick="updateNote()" type="button" value="Lähetä" id="submit3">
-<br><br>
-Lisää note
-<select id="note_add_address_menu"></select>
-<input type="text" id="note_temperature" name="note_temperature"/>
-<input type="text" id="note_cloudiness" name="note_cloudiness"/>
-<input type="text" id="note_humidity" name="note_humidity"/>
-<input type="datetime-local" id="note_dtime" name="note_dtime" placeholder="0000-00-00 00:00:00"/>
-<input onclick="postNote()" type="button" value="Lähetä" id="submit5">
-<br><br>
-Poista note
-<input type="text" id="delete_note_id" name="delete_note_id"/>
-<input onclick="deleteNote()" type="button" value="Lähetä" id="submit4">
-<br><br>
-Päivitä location
-<select id="location_update_menu"></select>
-<input type="text" id="new_city" name="new_city"/>
-<input type="text" id="new_address" name="new_address"/>
-<input onclick="updateLocation()" type="button" value="Lähetä" id="submit6">
-<br><br>
-Poista location
-<select id="location_delete_menu"></select>
-<input onclick="deleteLocation()" type="button" value="Lähetä" id="submit7">
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
