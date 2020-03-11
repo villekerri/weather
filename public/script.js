@@ -56,6 +56,19 @@ function addLocation(){
     xmlhttp.send(params);
 }
 
+function postNote(){
+    var params = 'note_address=' + document.getElementById("note_address").value +
+        '&temperature=' + document.getElementById("note_temperature").value +
+        '&cloudiness=' + document.getElementById("note_cloudiness").value +
+        '&humidity=' + document.getElementById("note_humidity").value +
+        '&dtime=' + document.getElementById("note_dtime").value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://127.0.0.1:8081/add_note", true);
+    console.log(params);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
+}
+
 function updateNote(){
     var params = 'id=' + document.getElementById("note_id").value +
         '&temperature=' + document.getElementById("new_temperature").value +
