@@ -36,8 +36,9 @@ async function getLocations() {
     return result;
 }
 
-async function locationNotes(location) {
-    let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id WHERE locations.city="' + location + '"';
+async function locationNotes(locations_id) {
+    let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id ' +
+        'WHERE locations.locations_id=' + locations_id + ' ORDER BY notes.dtime DESC';
     const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
@@ -98,10 +99,10 @@ app.get('/locations', function (req, res, next) {
      .catch(console.log);
 })
 
-app.get('/notes/:location', function (req, res, next) {
-    var location = req.params.location
+app.get('/notes/:locations_id', function (req, res, next) {
+    var locations_id = req.params.locations_id
     console.log(req.query)
-    let result = locationNotes(location);
+    let result = locationNotes(locations_id);
 
     result.then( ([rows, fields]) => {
         console.log(rows, fields);
