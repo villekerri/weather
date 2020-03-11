@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <script src="script.js"></script>
 
+<h1>Lisää havainto</h1>
+
+<h1>Hae havainnot paikkatunnisteella</h1>
+<label for="location_id"></label>
 <input type="text" id="location_id" name="location_id"/>
 <input onclick="locationNotes()" type="button" value="Lähetä" id="submit">
 <div id="main"></div>
-<br>
+
+<h1>Lisää havaintopaikka</h1>
 <input type="text" id="add_city" name="add_city"/>
 <input type="text" id="add_address" name="add_address"/>
 <input onclick="addLocation()" type="button" value="Lähetä" id="submit2">
