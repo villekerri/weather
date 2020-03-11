@@ -43,6 +43,29 @@ async function locationNotes(location) {
     return result;
 }
 
+async function postNote(note_address, temperature, cloudiness, humidity, dtime) {
+    let sql_query = "INSERT INTO notes (locations_id, temperature, cloudiness, humidity, dtime) VALUES (?, ?, ?, ?, ?)";
+    console.log(sql_query, note_address, temperature, cloudiness, humidity, dtime);
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query, [note_address, temperature, cloudiness, humidity, dtime]);
+    return result;
+}
+
+async function updateNote(id, temperature, cloudiness, humidity, dtime) {
+    let sql_query = 'UPDATE notes SET temperature=' + temperature + ', cloudiness="' + cloudiness +
+        '", humidity=' + humidity + ', dtime="' + dtime + '" WHERE notes_id=' + id;
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    return result;
+}
+
+async function deleteNote(id) {
+    let sql_query = 'DELETE FROM notes WHERE notes_id=' + id;
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    return result;
+}
+
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../', 'public/index.html'))
 })
@@ -85,6 +108,56 @@ app.post('/:add-location', function (req, res, next) {
          console.log("error in add-location: ", err);
          res.sendStatus(500);
      });
+})
+
+// post note
+app.post('/:add_note', function (req, res, next) {
+    let note_address = req.body.note_address;
+    let temperature = req.body.temperature;
+    let cloudiness = req.body.cloudiness;
+    let humidity = req.body.humidity
+    let dtime = req.body.dtime
+    console.log("req.body:", req.body,
+        "req.query: ", req.query);
+    let result = postNote(note_address, temperature, cloudiness, humidity, dtime);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.sendStatus(200);
+    })
+        .catch(function(err) {
+            console.log("error in add-location: ", err);
+            res.sendStatus(500);
+        });
+})
+
+// put update note
+app.put('/update_note', function (req, res) {
+    let id = req.param('id');
+    let temperature = req.param('temperature');
+    let cloudiness = req.param('cloudiness');
+    let humidity = req.param('humidity');
+    let dtime = req.param('dtime');
+    let result = updateNote(id, temperature, cloudiness, humidity, dtime);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.sendStatus(200);
+    })
+        .catch(console.log);
+})
+
+// delete note IDllä
+app.delete('/notes/:id', function (req, res) {
+    var id = req.params.id
+    console.log(req.query)
+    let result = deleteNote(id);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.send(rows);
+    })
+        .catch(console.log);
 })
 
 //http://127.0.0.1:8081/
