@@ -1,4 +1,16 @@
+
 h1 {
     color: navy;
     margin-left: 20px;
+}
+
+img {
+    height="20%";
+    width="100%";
+}
+
+.topnav {
+    background-color: #9DC3E6;
+    overflow: hidden;
+    border-bottom: 8px solid #59b7eefa;
 }
