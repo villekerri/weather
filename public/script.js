@@ -57,7 +57,10 @@ function addLocation(){
 }
 
 function postNote(){
-    var params = 'note_address=' + document.getElementById("note_address").value +
+    var address_choice = document.getElementById("address_menu");
+    var address_of_note = address_choice.options[address_choice.selectedIndex].value;
+    console.log(address_of_note)
+    var params = 'note_address=' + address_of_note +
         '&temperature=' + document.getElementById("note_temperature").value +
         '&cloudiness=' + document.getElementById("note_cloudiness").value +
         '&humidity=' + document.getElementById("note_humidity").value +
@@ -86,5 +89,23 @@ function deleteNote(){
     var note_id = document.getElementById("delete_note_id").value;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("DELETE", "http://127.0.0.1:8081/notes/" + note_id, true);
+    xmlhttp.send();
+}
+
+function locations(){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var json = JSON.parse(xmlhttp.responseText);
+            console.log("json:", json)
+            var menu = '<select id="address_menu" name="address_menu">\n';
+            for (let place of json) {
+                menu += '<option value=' + place.locations_id + '>' + place.address + '</option>\n';
+            }
+            menu += '</select>'
+            document.getElementById("address_menu").innerHTML = menu;
+        }
+    }
+    xmlhttp.open("GET", "http://127.0.0.1:8081/locations", true);
     xmlhttp.send();
 }
