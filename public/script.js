@@ -27,6 +27,7 @@ function showNoteInfo(notes) {
             <th scope="col">Outlook</th>
             <th scope="col">Temperature</th>
             <th scope"col">Time</th>
+            <th scope"col">ID</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@ function showNoteInfo(notes) {
               <td>${note.cloudiness}</td>
               <td>${note.temperature + " °C"}</td>
               <td>${time}</td>
+              <td>${note.notes_id}</td>
               </tr>
               `
             document.getElementById('notes').innerHTML += row;
