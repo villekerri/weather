@@ -3,7 +3,7 @@ function start() {
 }
 
 function locationNotes(){
-    var loc_id = document.getElementById("location_id").value;
+    var loc_id = document.getElementById("note_address_menu").value;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         console.log("readyState: " + xmlhttp.readyState);
@@ -62,7 +62,7 @@ function addLocation(){
 }
 
 function postNote(){
-    var address_choice = document.getElementById("address_menu");
+    var address_choice = document.getElementById("note_add_address_menu");
     var address_of_note = address_choice.options[address_choice.selectedIndex].value;
     console.log(address_of_note)
     var params = 'note_address=' + address_of_note +
@@ -78,7 +78,7 @@ function postNote(){
 }
 
 function updateNote(){
-    var params = 'id=' + document.getElementById("note_id").value +
+    var params = 'id=' + document.getElementById("update_note_id").value +
         '&temperature=' + document.getElementById("new_temperature").value +
         '&cloudiness=' + document.getElementById("new_cloudiness").value +
         '&humidity=' + document.getElementById("new_humidity").value +
@@ -108,8 +108,8 @@ function locations(){
                 menu += '<option value=' + place.locations_id + '>' + place.city + ', ' + place.address + '</option>\n';
             }
             menu += '</select>';
-            document.getElementById("note_update_address").innerHTML = menu;
-            document.getElementById("note_add_address").innerHTML = menu;
+            document.getElementById("note_address_menu").innerHTML = menu;
+            document.getElementById("note_add_address_menu").innerHTML = menu;
             document.getElementById("location_update_menu").innerHTML = menu;
             document.getElementById("location_delete_menu").innerHTML = menu;
         }
