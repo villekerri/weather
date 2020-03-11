@@ -7,7 +7,7 @@
     a384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body onload="locations()">
+<body onload="start()">
 <script src="script.js"></script>
 
 <div class="topnav">
@@ -47,7 +47,14 @@
 <br><br>
 <input type="text" id="delete_note_id" name="delete_note_id"/>
 <input onclick="deleteNote()" type="button" value="Lähetä" id="submit4">
-
+<br><br>
+<input type="text" id="update_loc_id" name="update_loc_id"/>
+<input type="text" id="new_city" name="new_city"/>
+<input type="text" id="new_address" name="new_address"/>
+<input onclick="updateLocation()" type="button" value="Lähetä" id="submit6">
+<br><br>
+<input type="text" id="delete_location_id" name="delete_location_id"/>
+<input onclick="deleteLocation()" type="button" value="Lähetä" id="submit7">
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

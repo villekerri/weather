@@ -1,3 +1,7 @@
+function start() {
+    locations();
+}
+
 function locationNotes(){
     var loc_id = document.getElementById("location_id").value;
     var xmlhttp = new XMLHttpRequest();
@@ -107,5 +111,23 @@ function locations(){
         }
     }
     xmlhttp.open("GET", "http://127.0.0.1:8081/locations", true);
+    xmlhttp.send();
+}
+
+function updateLocation(){
+    var params = 'id=' + document.getElementById("update_loc_id").value +
+        '&city=' + document.getElementById("new_city").value +
+        '&address=' + document.getElementById("new_address").value;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("PUT", "http://127.0.0.1:8081/update_location", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send(params);
+}
+
+function deleteLocation(){
+    var note_id = document.getElementById("delete_location_id").value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("DELETE", "http://127.0.0.1:8081/locations/" + note_id, true);
     xmlhttp.send();
 }
