@@ -10,9 +10,19 @@
 <input type="text" id="location_id" name="location_id"/>
 <input onclick="locationNotes()" type="button" value="Lähetä" id="submit">
 <div id="main"></div>
-
+<br>
 <input type="text" id="add_city" name="add_city"/>
 <input type="text" id="add_address" name="add_address"/>
 <input onclick="addLocation()" type="button" value="Lähetä" id="submit2">
+<br><br>
+<input type="text" id="note_id" name="note_id"/>
+<input type="text" id="new_temperature" name="new_temperature"/>
+<input type="text" id="new_cloudiness" name="new_cloudiness"/>
+<input type="text" id="new_humidity" name="new_humidity"/>
+<input type="datetime-local" id="new_dtime" name="new_dtime" placeholder="0000-00-00 00:00:00"/>
+<input onclick="updateNote()" type="button" value="Lähetä" id="submit3">
+<br><br>
+<input type="text" id="delete_note_id" name="delete_note_id"/>
+<input onclick="deleteNote()" type="button" value="Lähetä" id="submit4">
 </body>
 </html>

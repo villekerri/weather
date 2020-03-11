@@ -30,14 +30,30 @@ async function postLocation(city, address) {
 }
 
 async function getLocations() {
-    let sql_query = "SELECT * FROM locations";
+    let sql_query = 'SELECT * FROM locations';
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    return result;
+}
+
+async function updateNote(id, temperature, cloudiness, humidity, dtime) {
+    let sql_query = 'UPDATE notes SET temperature=' + temperature + ', cloudiness="' + cloudiness +
+        '", humidity=' + humidity + ', dtime="' + dtime + '" WHERE notes_id=' + id;
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    return result;
+}
+
+async function deleteNote(id) {
+    let sql_query = 'DELETE FROM notes WHERE notes_id=' + id;
     const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
 }
 
 async function locationNotes(location) {
-    let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id WHERE locations.city="' + location + '"';
+    let sql_query = 'SELECT * FROM notes INNER JOIN locations ON notes.locations_id = locations.locations_id WHERE ' +
+        'locations.address="' + location + '"';
     const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
@@ -47,6 +63,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../', 'public/index.html'))
 })
 
+// get kaikki locations
 app.get('/locations', function (req, res, next) {
     console.log(req.query)
     let result = getLocations();
@@ -58,7 +75,8 @@ app.get('/locations', function (req, res, next) {
      .catch(console.log);
 })
 
-app.get('/notes/:location', function (req, res, next) {
+// get notes kadun nimellä
+app.get('/notes/:location', function (req, res) {
     var location = req.params.location
     console.log(req.query)
     let result = locationNotes(location);
@@ -70,11 +88,44 @@ app.get('/notes/:location', function (req, res, next) {
         .catch(console.log);
 })
 
-app.post('/add-location', function (req, res, next) {
+// put update note
+app.put('/update_note', function (req, res) {
+    let id = req.param('id');
+    let temperature = req.param('temperature');
+    let cloudiness = req.param('cloudiness');
+    let humidity = req.param('humidity');
+    let dtime = req.param('dtime');
+    console.log(id);
+    console.log(temperature);
+    console.log(cloudiness);
+    console.log(humidity);
+    console.log(dtime);
+    let result = updateNote(id, temperature, cloudiness, humidity, dtime);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.sendStatus(200);
+    })
+        .catch(console.log);
+})
+
+// delete note IDllä
+app.delete('/notes/:id', function (req, res) {
+    var id = req.params.id
+    console.log(req.query)
+    let result = deleteNote(id);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.send(rows);
+    })
+        .catch(console.log);
+})
+
+// post uusi location(city, address)
+app.post('/add-location', function (req, res) {
     let city = req.param('city')
     let address = req.param('address')
-    console.log(req.query)
-    console.log("tää: " + req.query.city + req.body.city + req.param('city'))
     let result = postLocation(city, address);
 
     result.then( ([rows, fields]) => {
