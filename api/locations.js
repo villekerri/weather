@@ -30,7 +30,7 @@ async function postLocation(city, address) {
 }
 
 async function getLocations() {
-    let sql_query = "SELECT * FROM locations";
+    let sql_query = "SELECT * FROM locations ORDER BY city, address";
     const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
@@ -59,11 +59,28 @@ async function updateNote(id, temperature, cloudiness, humidity, dtime) {
     return result;
 }
 
+async function updateLocation(id, city, address) {
+    let sql_query = 'UPDATE locations SET city="' + city + '", address="' + address + '" WHERE locations_id=' + id;
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    return result;
+}
+
 async function deleteNote(id) {
     let sql_query = 'DELETE FROM notes WHERE notes_id=' + id;
     const con = await sql.createConnection(sql_settings);
     const result = await con.execute(sql_query);
     return result;
+}
+
+async function deleteLocation(id) {
+    let sql_query = 'DELETE FROM notes WHERE locations_id=' + id;
+    const con = await sql.createConnection(sql_settings);
+    const result = await con.execute(sql_query);
+    sql_query = 'DELETE FROM locations WHERE locations_id=' + id;
+    const con2 = await sql.createConnection(sql_settings);
+    const result2 = await con2.execute(sql_query);
+    return result + result2;
 }
 
 app.get('/', function (req, res) {
@@ -147,11 +164,38 @@ app.put('/update_note', function (req, res) {
         .catch(console.log);
 })
 
+// put update location
+app.put('/update_location', function (req, res) {
+    let id = req.param('id');
+    let city = req.param('city');
+    let address = req.param('address');
+    let result = updateLocation(id, city, address);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.sendStatus(200);
+    })
+        .catch(console.log);
+})
+
 // delete note IDllä
 app.delete('/notes/:id', function (req, res) {
     var id = req.params.id
     console.log(req.query)
     let result = deleteNote(id);
+
+    result.then( ([rows, fields]) => {
+        console.log(rows, fields);
+        res.send(rows);
+    })
+        .catch(console.log);
+})
+
+// delete location IDllä
+app.delete('/locations/:id', function (req, res) {
+    var id = req.params.id
+    console.log(req.query)
+    let result = deleteLocation(id);
 
     result.then( ([rows, fields]) => {
         console.log(rows, fields);
