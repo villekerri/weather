@@ -58,6 +58,7 @@ function addLocation(){
     console.log(params);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
+    locations();
 }
 
 function postNote(){
@@ -104,10 +105,13 @@ function locations(){
             console.log("json:", json)
             var menu = '<select id="address_menu" name="address_menu">\n';
             for (let place of json) {
-                menu += '<option value=' + place.locations_id + '>' + place.address + '</option>\n';
+                menu += '<option value=' + place.locations_id + '>' + place.city + ', ' + place.address + '</option>\n';
             }
-            menu += '</select>'
-            document.getElementById("address_menu").innerHTML = menu;
+            menu += '</select>';
+            document.getElementById("note_update_address").innerHTML = menu;
+            document.getElementById("note_add_address").innerHTML = menu;
+            document.getElementById("location_update_menu").innerHTML = menu;
+            document.getElementById("location_delete_menu").innerHTML = menu;
         }
     }
     xmlhttp.open("GET", "http://127.0.0.1:8081/locations", true);
@@ -115,7 +119,7 @@ function locations(){
 }
 
 function updateLocation(){
-    var params = 'id=' + document.getElementById("update_loc_id").value +
+    var params = 'id=' + document.getElementById("location_update_menu").value +
         '&city=' + document.getElementById("new_city").value +
         '&address=' + document.getElementById("new_address").value;
 
@@ -123,11 +127,13 @@ function updateLocation(){
     xmlhttp.open("PUT", "http://127.0.0.1:8081/update_location", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
+    locations();
 }
 
 function deleteLocation(){
-    var note_id = document.getElementById("delete_location_id").value;
+    var note_id = document.getElementById("location_delete_menu").value;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("DELETE", "http://127.0.0.1:8081/locations/" + note_id, true);
     xmlhttp.send();
+    locations();
 }
