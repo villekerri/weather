@@ -19,7 +19,7 @@ function locationNotes(){
 }
 function showNoteInfo(notes) {
     if (notes.length > 0) {
-        const table = `<table class="table table-dark" id="notes">
+        const table = `<table class="table" id="notes">
         <thead>
           <tr>
             <th scope="col">Address</th>
@@ -40,7 +40,7 @@ function showNoteInfo(notes) {
             const row = `
               <tr>
               <th scope="row">${note.address}</th>
-              <td>${note.humidity}</td>
+              <td>${note.humidity + " %"}</td>
               <td>${note.cloudiness}</td>
               <td>${note.temperature + " °C"}</td>
               <td>${time}</td>
