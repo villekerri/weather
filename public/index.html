@@ -50,7 +50,7 @@
                   </div>
                   <div class="form-group col-3">
                     <label for="note_humidity">Ilmankosteus: </label>
-                    <input type="text" class="form-control" id="note_humidity" placeholder="0-99%" pattern="(\d{2})" required>
+                    <input type="text" class="form-control" id="note_humidity" placeholder="0-99%" pattern="(\d{1, 2})" required>
                   </div>
                   <div class="form-group col-3">
                     <label for="note_dtime">Ajankohta: </label>
@@ -77,7 +77,7 @@
             <br><br>
             <h1>Hae havainnot paikkatunnisteella</h1>
             <select id="note_address_menu"></select>
-            <input onclick="locationNotes()" type="button" value="Lähetä" id="submit">
+            <button type="submit" class="btn btn-primary" onclick="locationNotes()" type="button" value="Lähetä" id="submit"">Hae</button>
             <div id="main">
                 <div class="form-group" id="notes-list">
                 </div>
@@ -86,23 +86,33 @@
         <div id="menu2" class="tab-pane fade">
             <br><br>
             <h1>Päivitä havainto</h1>
-            <label for="update_note_id">Päivitettävän havainnon id: </label><input type="number" id="update_note_id" name="update_note_id"/>
-            <br><br>
-            <label for="new_temperature">Lämpötila: </label><input type="text" id="new_temperature" name="new_temperature" placeholder="20 °C"/>
-            <br><br>
-            <label for="new_cloudiness">Pilvisyys </label><input type="text" id="new_cloudiness" name="new_cloudiness" placeholder="Sunny"/>
-            <br><br>
-            <label for="new_humidity">Ilmankosteus </label><input type="text" id="new_humidity" name="new_humidity" placeholder="0-99 %" pattern="(\d{2})"/>
-            <br><br>
-            <label for="new_dtime">Ajankohta </label><input type="datetime-local" id="new_dtime" name="new_dtime" placeholder="yyyy-mm-dd hh:mm:ss" pattern="(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})"/>
-            <br><br>
-            <input onclick="updateNote()" type="button" value="Päivitä" id="submit3">
+            <form>
+                <div class="form-group col-3">
+                <label for="update_note_id">Päivitettävän havainnon id: </label><input class="form-control" type="number" id="update_note_id" name="update_note_id" placeholder="ID numero" required/>
+                </div>
+                <div class="form-group col-3">
+                <label for="new_temperature">Lämpötila: </label><input class="form-control" type="text" id="new_temperature" name="new_temperature" placeholder="20 °C" required/>
+                </div>
+                <div class="form-group col-3">
+                <label for="new_cloudiness">Pilvisyys </label><input class="form-control" type="text" id="new_cloudiness" name="new_cloudiness" placeholder="Sunny" required/>
+                </div>
+                <div class="form-group col-3">
+                <label for="new_humidity">Ilmankosteus </label><input class="form-control" type="text" id="new_humidity" name="new_humidity" placeholder="0-99 %" pattern="(\d{2})" required/>
+                </div>
+                <div class="form-group col-3">
+                <label for="new_dtime">Ajankohta </label><input class="form-control" type="datetime-local" id="new_dtime" name="new_dtime" placeholder="yyyy-mm-dd hh:mm:ss" pattern="(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})" required/>
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="updateNote()" type="button" value="Lähetä" id="submit3">Tallenna</button>
+            </form>
             <br><br>
             <h1>Poista havainto</h1>
-            <label for="update_note_id">Poistettavan havainnon id: </label><input type="number" id="delete_note_id" name="delete_note_id" required/>
-            <br><br>
-            <input onclick="deleteNote()" type="button" value="Poista" id="submit4">
-            <br><br>
+            <form>
+            <div class="form-group col-3">
+            <label for="update_note_id">Poistettavan havainnon id: </label><input class="form-control" type="number" id="delete_note_id" name="delete_note_id" required/>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="deleteNote()" type="button" value="Poista" id="submit4">Poista</button>
+            </form>
+
         </div>
     </div>
 </div>
